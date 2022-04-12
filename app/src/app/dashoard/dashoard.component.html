@@ -1,55 +1,55 @@
-
-
 <div class="container">
     <div class="card mt-5">
-      <div class="card-body">
-        <div>Enter the symbol of a stock to track(i.e AAPL, TSLA, GOOGL)</div>
-        <div class="p-3">
-          <span>
-            <input type="text" name="" id="" [(ngModel)]="enteredValue" #input
-              (input)="input.value=$event.target.value.toUpperCase()">
-          </span>
-          <span class="p-5">
-            <button type="button" (click)="storeData()">Track Stock</button>
-          </span>
+        <div class="card-body">
+            <div>Enter the symbol of a stock to track(i.e AAPL, TSLA, GOOGL)</div>
+            <div class="p-3">
+                <span>
+                    <input type="text" name="" id="" [(ngModel)]="enteredValue" #input
+                        (input)="input.value=$event.target.value.toUpperCase()">
+                </span>
+                <span class="p-5">
+                    <button type="button" (click)="storeData()">Track Stock</button>
+                </span>
+            </div>
         </div>
-      </div>
     </div>
-  
+
     <div class="card mt-3" *ngFor="let item of data;let i =index">
-      <div class="card-body">
-        <div class="d-flex justify-content-between ">
-            <div> {{item.description}} &nbsp;({{item.symbol}}) </div>
-            <div> <span (click)="removeItem(i)" class="closeIcon"> ×</span></div>
-        
+        <div class="card-body">
+            <div class="d-flex justify-content-between ">
+                <div>
+                    <h3>{{item.description}} &nbsp;({{item.symbol}})</h3>
+                </div>
+                <div (click)="removeItem(i)" class="closeIcon"> × </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <span>Change Today :</span>
+                    <span> {{item.dp}} </span>
+                </div>
+
+                <div class="col-lg-6">
+                    <span>Opening Price :</span>
+                    <span> {{item.o}} </span>
+
+                </div>
+
+                <div class="col-lg-6">
+                    <span>Current Price :</span>
+                    <span> {{item.c}} </span>
+
+                </div>
+
+                <div class="col-lg-6">
+                    <span>High Price :</span>
+                    <span> {{item.h}} </span>
+
+                </div>
+                <div class="mt-2 ">
+                    <button type="button" (click)="redirectTo(item)">Go to social sentiment details</button>
+                </div>
+            </div>
         </div>
-        <div class="row">
-          <div class="col-lg-6">
-            <span>Change Today :</span>
-            <span> {{item.dp}} </span>
-          </div>
-  
-          <div class="col-lg-6">
-            <span>Opening Price :</span>
-            <span> {{item.o}} </span>
-  
-          </div>
-  
-          <div class="col-lg-6">
-            <span>Current Price :</span>
-            <span> {{item.c}} </span>
-  
-          </div>
-  
-          <div class="col-lg-6">
-            <span>High Price :</span>
-            <span> {{item.h}} </span>
-  
-          </div>
-          <div class="mt-2 ">
-            <button type="button" (click)="redirectTo(item)">Go to social sentiment details</button>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
