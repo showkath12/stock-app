@@ -13,11 +13,12 @@ export class AppComponent implements OnInit {
   newArr = [];
   token: any;
   data: any = [];
-  constructor(private http: HttpClient,  private router: Router,) {
+  constructor(private http: HttpClient, private router: Router,) {
     this.token = 'bu4f8kn48v6uehqi3cqg';
     localStorage.setItem("apiKey", this.token);
   }
-  // https://finnhub.io/api/v1/quote?symbol=AAPL&token=bu4f8kn48v6uehqi3cqg
+
+
   ngOnInit(): void {
     this.getStockData();
   }
@@ -30,11 +31,11 @@ export class AppComponent implements OnInit {
     if (!value && this.newArr?.length > 0) {
       this.newArr.forEach(element => {
         let api = `${baseUrl}/quote?symbol=${element}&token=${api_key}`;
-        let searchApi = `${baseUrl}/search?q=${element}&token=${api_key}`
+        let searchApi = `${baseUrl}/search?q=${element}&token=${api_key}`;
         this.http.get(api).subscribe(
           res => {
-            this.http.get(searchApi).subscribe((resp:any)=>{  
-                this.data.push(res);      
+            this.http.get(searchApi).subscribe((resp: any) => {
+              this.data.push(res);
             });
           });
       });
@@ -56,12 +57,16 @@ export class AppComponent implements OnInit {
     this.enteredValue = "";
   }
 
-  convertToUpperCase(event){
-    let item=event.toUpperCase()
+  convertToUpperCase(event) {
+    let item = event.toUpperCase();
     return item;
   }
 
-  redirectTo(){
+  removeItem(i) {
+    this.data.splice(i, 1);
+  }
+
+  redirectTo() {
     this.router.navigate(['sentiment' + `/TSLA`]);
   }
 
