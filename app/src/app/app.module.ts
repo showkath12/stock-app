@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule} from '@angular/common/http';
-import { SentimentDetailsComponent } from './sentiment-details/sentiment-details.component'
+import { SentimentDetailsComponent } from './sentiment-details/sentiment-details.component';
+import { DashoardComponent } from './dashoard/dashoard.component'
 
 @NgModule({
   declarations: [
     AppComponent,
-    SentimentDetailsComponent
+    SentimentDetailsComponent,
+    DashoardComponent
   ],
   imports: [
     BrowserModule,
