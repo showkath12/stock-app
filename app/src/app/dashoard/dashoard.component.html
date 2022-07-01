@@ -24,32 +24,61 @@
 
             </div>
             <div class="row">
-                <div class="col-lg-6">
-                    <span>Change Today :</span>
-                    <span> {{item.dp}} </span>
+                <!-- if (values > 0) {
+                    // Do Something
+                } -->
+                <div  class="col-lg-4">
+                    <div class="d-flex align-items-start flex-column">
+                        <div class="p-2">
+                            <span>Change Today :</span>
+                            <span> {{item.dp}} </span>                    
+                        </div>
+
+
+                        <div class="p-2">
+                            <span>Opening Price :</span>
+                            <span> {{item.o}} </span>
+                        </div>
+                        
+                      </div>
+
+                    <!-- <span>Change Today :</span>
+                    <span> {{item.dp}} </span> -->
                 </div>
 
-                <div class="col-lg-6">
-                    <span>Opening Price :</span>
-                    <span> {{item.o}} </span>
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-start flex-column">
+                        <div class="p-2">
+                            <span>Current Price :</span>
+                            <span> {{item.c}} </span>
+                        </div>
+                        <div class="p-2">
+                            <span>High Price :</span>
+                            <span> {{item.h}} </span>
+                        </div>
+                      </div>
 
                 </div>
 
-                <div class="col-lg-6">
-                    <span>Current Price :</span>
-                    <span> {{item.c}} </span>
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-start flex-column">
+                        <div *ngIf="item.dp > 0" class="p-2 green">
+                            <p> &#9650; </p>
+                        </div>
+                       
+                        <div *ngIf="item.dp < 0" class="p-2 red">
+                            <p> &#9660; </p>
+                        </div>
 
+                      </div> 
                 </div>
-
-                <div class="col-lg-6">
-                    <span>High Price :</span>
-                    <span> {{item.h}} </span>
-
-                </div>
+           
                 <div class="mt-2 ">
                     <button type="button" (click)="redirectTo(item)">Go to social sentiment details</button>
                 </div>
             </div>
+            
+          
         </div>
     </div>
 </div>

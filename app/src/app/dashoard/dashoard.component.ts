@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
 import { Router } from '@angular/router';
+import { StockServiceService } from '../services/stock-service.service';
 
 @Component({
   selector: 'app-dashoard',
@@ -11,15 +11,12 @@ export class DashoardComponent implements OnInit {
 
   enteredValue: any;
   stocksList= [];
-  token: any;
   data: any = [];
   dummyArr: any = [];
   finalObj: any = {};
   someObj: any;
 
-  constructor(private http: HttpClient, private router: Router,) {
-    this.token = 'bu4f8kn48v6uehqi3cqg';
-    localStorage.setItem("apiKey", this.token);
+  constructor(private stockService:StockServiceService, private router: Router,) {
   }
 
 
@@ -30,21 +27,17 @@ export class DashoardComponent implements OnInit {
 
   // Getting stocks data
   getStockData(value?) {
-    let baseUrl = 'https://finnhub.io/api/v1'
-    let api_key = localStorage.getItem('apiKey');
     this.stocksList = JSON.parse(localStorage.getItem('stocks'));
     if (!value && this.stocksList?.length > 0) {
-      this.stocksList.forEach(element => {
-        let api = `${baseUrl}/quote?symbol=${element}&token=${api_key}`;
-        let searchApi = `${baseUrl}/search?q=${element}&token=${api_key}`;
-        this.http.get(api).subscribe(
+      this.stocksList.forEach(element => {       
+        this.stockService.getStocksData(element).subscribe(
           (res: any) => {
             let obj = {};
             obj = {
               ...res,
               'symbol': element
             }
-            this.http.get(searchApi).subscribe((resp: any) => {
+            this.stockService.searchStocks(element).subscribe((resp) => {
               this.finalObj = {
                 ...obj,
                 'description': resp.result[0]?.description
@@ -54,16 +47,14 @@ export class DashoardComponent implements OnInit {
           });
       });
     } else if (value) {
-      let api = `${baseUrl}/quote?symbol=${value}&token=${api_key}`;
-      let searchApi = `${baseUrl}/search?q=${value}&token=${api_key}`;
-      this.http.get(api).subscribe(
+      this.stockService.getStocksData(value).subscribe(
         (res: any) => {
           let obj = {};
           obj = {
             ...res,
             'symbol': value
           }
-          this.http.get(searchApi).subscribe((resp: any) => {
+          this.stockService.searchStocks(value).subscribe((resp) => {
             this.finalObj = {
               ...obj,
               'description': resp.result[0]?.description
