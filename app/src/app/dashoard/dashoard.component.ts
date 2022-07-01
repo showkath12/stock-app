@@ -10,12 +10,12 @@ import { Router } from '@angular/router';
 export class DashoardComponent implements OnInit {
 
   enteredValue: any;
-  newArr = [];
+  stocksList= [];
   token: any;
   data: any = [];
-  dummyArr:any = [];
-  finalObj:any = {};
-  someObj:any;
+  dummyArr: any = [];
+  finalObj: any = {};
+  someObj: any;
 
   constructor(private http: HttpClient, private router: Router,) {
     this.token = 'bu4f8kn48v6uehqi3cqg';
@@ -32,9 +32,9 @@ export class DashoardComponent implements OnInit {
   getStockData(value?) {
     let baseUrl = 'https://finnhub.io/api/v1'
     let api_key = localStorage.getItem('apiKey');
-    this.newArr = JSON.parse(localStorage.getItem('stocks'));
-    if (!value && this.newArr?.length > 0) {
-      this.newArr.forEach(element => {
+    this.stocksList = JSON.parse(localStorage.getItem('stocks'));
+    if (!value && this.stocksList?.length > 0) {
+      this.stocksList.forEach(element => {
         let api = `${baseUrl}/quote?symbol=${element}&token=${api_key}`;
         let searchApi = `${baseUrl}/search?q=${element}&token=${api_key}`;
         this.http.get(api).subscribe(
@@ -45,11 +45,11 @@ export class DashoardComponent implements OnInit {
               'symbol': element
             }
             this.http.get(searchApi).subscribe((resp: any) => {
-                  this.finalObj = {
-                    ...obj,
-                    'description': resp.result[0]?.description
-                  }
-                this.data.push(this.finalObj);
+              this.finalObj = {
+                ...obj,
+                'description': resp.result[0]?.description
+              }
+              this.data.push(this.finalObj);
             });
           });
       });
@@ -62,14 +62,13 @@ export class DashoardComponent implements OnInit {
           obj = {
             ...res,
             'symbol': value
-          }        
-          console.log(obj)
+          }
           this.http.get(searchApi).subscribe((resp: any) => {
-                this.finalObj = {
-                  ...obj,
-                  'description': resp.result[0]?.description
-                }
-              this.data.push(this.finalObj);
+            this.finalObj = {
+              ...obj,
+              'description': resp.result[0]?.description
+            }
+            this.data.push(this.finalObj);
           });
         });
     }
@@ -78,9 +77,9 @@ export class DashoardComponent implements OnInit {
   // Adding stocks to local storage
   storeData() {
     if (this.enteredValue) {
-      this.newArr = this.newArr || [];
-      this.newArr.push(this.convertToUpperCase(this.enteredValue));
-      localStorage.setItem("stocks", JSON.stringify(this.newArr));
+      this.stocksList = this.stocksList || [];
+      this.stocksList.push(this.convertToUpperCase(this.enteredValue));
+      localStorage.setItem("stocks", JSON.stringify(this.stocksList));
       this.getStockData(this.convertToUpperCase(this.enteredValue));
       this.enteredValue = "";
     }
@@ -93,8 +92,14 @@ export class DashoardComponent implements OnInit {
   }
 
   // Removing items from the list
-  removeItem(i) {
+  removeItem(i, item) {
     this.data.splice(i, 1);
+    this.stocksList.forEach((element, index) => {
+      if (element == item.symbol) {
+        this.stocksList.splice(index, 1);
+      }
+    });
+    localStorage.setItem("stocks", JSON.stringify(this.stocksList));
   }
 
   // Navigate to component
