@@ -17,7 +17,6 @@ export class SentimentDetailsComponent implements OnInit {
 
   constructor(private stockService: StockServiceService, private route: ActivatedRoute) {
     this.stockObj = this.stockService.getItem();
-    console.log(this.stockObj)
     this.stockName = this.stockObj?.description;
     this.stockSymbol = this.route.snapshot.params.symbol;
   }
