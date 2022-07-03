@@ -10,14 +10,14 @@ import { StockServiceService } from '../services/stock-service.service';
 export class SentimentDetailsComponent implements OnInit {
 
   dataObj = [];
-  stockName : string;
+  stockfullName : string;
   stockSymbol: string;
   dataList = []
-  stockObj :any;
+  stockName :any;
 
   constructor(private stockService: StockServiceService, private route: ActivatedRoute) {
-    this.stockObj = this.stockService.getItem();
-    this.stockName = this.stockObj?.description;
+    this.stockName = this.stockService.getItem();
+    this.stockfullName = this.stockName;
     this.stockSymbol = this.route.snapshot.params.symbol;
   }
 

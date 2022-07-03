@@ -31,7 +31,7 @@ export class DashoardComponent implements OnInit {
     if (!value && this.stocksList?.length > 0) {
       this.stocksList.forEach(element => {       
         this.stockService.getStocksData(element).subscribe(
-          (res: any) => {
+          (res) => {
             let obj = {};
             obj = {
               ...res,
@@ -48,7 +48,7 @@ export class DashoardComponent implements OnInit {
       });
     } else if (value) {
       this.stockService.getStocksData(value).subscribe(
-        (res: any) => {
+        (res) => {
           let obj = {};
           obj = {
             ...res,
@@ -96,7 +96,7 @@ export class DashoardComponent implements OnInit {
 
   // Navigate to component
   redirectTo(item) {
-    this.stockService.setItem(item);
+    this.stockService.setItem(item.description);
     this.router.navigate(['sentiment' + `/${item.symbol}`]);
   }
 }
