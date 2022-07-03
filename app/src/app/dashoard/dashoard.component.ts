@@ -1,3 +1,4 @@
+import { state } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StockServiceService } from '../services/stock-service.service';
@@ -9,13 +10,12 @@ import { StockServiceService } from '../services/stock-service.service';
 })
 export class DashoardComponent implements OnInit {
 
-  enteredValue: any;
-  stocksList= [];
-  data: any = [];
-  dummyArr: any = [];
-  finalObj: any = {};
-  someObj: any;
-
+  enteredValue: string;
+  stocksList = [];
+  data  = [];
+  dummyArr: [] = [];
+  finalObj: object = {};
+  
   constructor(private stockService:StockServiceService, private router: Router,) {
   }
 
@@ -69,6 +69,7 @@ export class DashoardComponent implements OnInit {
   storeData() {
     if (this.enteredValue) {
       this.stocksList = this.stocksList || [];
+      console.log(this.enteredValue)
       this.stocksList.push(this.convertToUpperCase(this.enteredValue));
       localStorage.setItem("stocks", JSON.stringify(this.stocksList));
       this.getStockData(this.convertToUpperCase(this.enteredValue));
@@ -95,6 +96,7 @@ export class DashoardComponent implements OnInit {
 
   // Navigate to component
   redirectTo(item) {
+    this.stockService.setItem(item);
     this.router.navigate(['sentiment' + `/${item.symbol}`]);
   }
 }

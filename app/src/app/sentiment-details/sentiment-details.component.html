@@ -1,84 +1,45 @@
 <div class="container">
-    <div class="card mt-5" >
+    <div class="card mt-5">
         <div class="card-body">
-            <div class="row" *ngFor="let item of dataObj;let i =index">
-                <div class="d-flex justify-content-between ">
-                  <div class="col-lg-4">
-                    <span>Change:</span>
-                    <span> {{item.change}} </span>
-                  </div>
-
-                  <div class="col-lg-4">
-                    <span>MSPR:</span>
-                    <span> {{item.mspr}} </span>
+            <div class="row">
+                <div>
+                    <h3>{{stockName}} &nbsp;({{stockSymbol}})</h3>
                 </div>
+                <div class="col-lg-4" *ngFor="let item of dataList;let i =index">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="p-1">
+                                {{(item.month == 1)?"JANUARY":(item.month == 2)?"FEBRUARY":"MARCH"}}
+                            </div>
 
-                <div class="col-lg-4">
+                            <div class="p-1">
+                                <span>Change:</span>
+                                <span> {{item.change}} </span>
+                            </div>
 
-                </div>
-                    <!-- <div>
-                        <h3>{{item.description}} &nbsp;({{item.symbol}})</h3>
+                            <div class="p-1">
+                                <span>MSPR:</span>
+                                <span> {{item.mspr}} </span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+
+                            <div *ngIf="item.change > 0" class="p-2 green">
+                                <p> &#8593; </p>
+                            </div>
+                            <div *ngIf="item.change < 0" class="p-2 red">
+                                <p> &#8595; </p>
+                            </div>
+
+                        </div>
                     </div>
-                    <div (click)="removeItem(i,item)" class="closeIcon"> × </div> -->
-    
+
                 </div>
             </div>
-         
-            <!-- <div class="row">
-              
-                <div  class="col-lg-4">
-                    <div class="d-flex align-items-start flex-column">
-                        <div class="p-2">
-                            <span>Change Today :</span>
-                            <span> {{item.dp}} </span>                    
-                        </div>
-
-
-                        <div class="p-2">
-                            <span>Opening Price :</span>
-                            <span> {{item.o}} </span>
-                        </div>
-                        
-                      </div>
-
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="d-flex align-items-start flex-column">
-                        <div class="p-2">
-                            <span>Current Price :</span>
-                            <span> {{item.c}} </span>
-                        </div>
-                        <div class="p-2">
-                            <span>High Price :</span>
-                            <span> {{item.h}} </span>
-                        </div>
-                      </div>
-
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="d-flex align-items-start flex-column">
-                        <div *ngIf="item.dp > 0" class="p-2 green">
-                            <p> &#9650; </p>
-                        </div>
-                       
-                        <div *ngIf="item.dp < 0" class="p-2 red">
-                            <p> &#9660; </p>
-                        </div>
-
-                      </div> 
-                </div>
-           
-                <div class="mt-2 ">
-                    <button type="button" (click)="redirectTo(item)">Go to social sentiment details</button>
-                </div>
-            </div> -->
-            
-          
         </div>
     </div>
     <div class="mt-3">
         <button type="button" [routerLink]="['']">Back to list of stocks</button>
     </div>
-</div>
+    </div>

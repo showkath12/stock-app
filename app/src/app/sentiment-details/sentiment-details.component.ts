@@ -9,11 +9,17 @@ import { StockServiceService } from '../services/stock-service.service';
 })
 export class SentimentDetailsComponent implements OnInit {
 
-  dataObj = {};
-  stockName: string;
+  dataObj = [];
+  stockName : string;
+  stockSymbol: string;
+  dataList = []
+  stockObj :any;
 
   constructor(private stockService: StockServiceService, private route: ActivatedRoute) {
-    this.stockName = this.route.snapshot.params.symbol;
+    this.stockObj = this.stockService.getItem();
+    console.log(this.stockObj)
+    this.stockName = this.stockObj?.description;
+    this.stockSymbol = this.route.snapshot.params.symbol;
   }
 
   ngOnInit(): void {
@@ -21,8 +27,13 @@ export class SentimentDetailsComponent implements OnInit {
   }
 
   loadSentimentDetails() {
-    this.stockService.sentimentDetails(this.stockName).subscribe(res => {
+    this.stockService.sentimentDetails(this.stockSymbol).subscribe(res => {
       this.dataObj = res?.data;
+      this.dataObj.forEach(element => {
+        if (element.year === 2022) {
+          this.dataList.push(element);
+        }
+      });
     })
   }
 
