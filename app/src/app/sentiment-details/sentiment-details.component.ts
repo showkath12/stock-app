@@ -13,11 +13,9 @@ export class SentimentDetailsComponent implements OnInit {
   stockfullName : string;
   stockSymbol: string;
   dataList = []
-  stockName :any;
 
   constructor(private stockService: StockServiceService, private route: ActivatedRoute) {
-    this.stockName = this.stockService.getItem();
-    this.stockfullName = this.stockName;
+    this.stockfullName = this.stockService.getItem();
     this.stockSymbol = this.route.snapshot.params.symbol;
   }
 

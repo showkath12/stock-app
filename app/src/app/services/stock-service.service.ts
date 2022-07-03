@@ -11,14 +11,14 @@ export class StockServiceService {
 
 
   token: string = 'bu4f8kn48v6uehqi3cqg';
-  stockName :string;
+  stockDescription :string;
 
   setItem(item) {
-    return this.stockName = item;
+    return this.stockDescription = item;
   }
 
   getItem(){
-    return this.stockName;
+    return this.stockDescription;
   }
 
   setLocalStorageItem() {
