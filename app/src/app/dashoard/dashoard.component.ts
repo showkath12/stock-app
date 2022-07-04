@@ -3,6 +3,30 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StockServiceService } from '../services/stock-service.service';
 
+interface stockData {
+  c: number;
+  d: number;
+  dp: number;
+  h: number;
+  l: number;
+  o: number;
+  pc: number;
+  t: number;
+  stockName: string;
+  stockCode: string;
+}
+
+interface searchStockData {
+  result:[
+    {
+      description: string;
+      symbol: string;
+      displaySymbol: string;
+      type: string;
+    }
+  ]
+}
+
 @Component({
   selector: 'app-dashoard',
   templateUrl: './dashoard.component.html',
@@ -11,11 +35,10 @@ import { StockServiceService } from '../services/stock-service.service';
 export class DashoardComponent implements OnInit {
 
   enteredValue: string;
-  stocksList = [];
-  data  = [];
-  dummyArr: [] = [];
-  finalObj: object = {};
-  
+  stocksList: string[] = new Array();
+  data : Array<stockData> = [];
+  stockDetails : Array<searchStockData> = [];
+
   constructor(private stockService:StockServiceService, private router: Router,) {
   }
 
@@ -31,35 +54,25 @@ export class DashoardComponent implements OnInit {
     if (!value && this.stocksList?.length > 0) {
       this.stocksList.forEach(element => {       
         this.stockService.getStocksData(element).subscribe(
-          (res) => {
-            let obj = {};
-            obj = {
-              ...res,
-              'symbol': element
-            }
-            this.stockService.searchStocks(element).subscribe((resp) => {
-              this.finalObj = {
-                ...obj,
-                'description': resp.result[0]?.description
-              }
-              this.data.push(this.finalObj);
+          (res : stockData) => {
+            this.stockService.searchStocks(element).subscribe((resp:searchStockData) => {              
+              this.data.push({
+                ...res,
+                stockName: resp.result[0]?.description,
+                stockCode: resp.result[0]?.symbol,
+              })
             });
           });
       });
     } else if (value) {
       this.stockService.getStocksData(value).subscribe(
-        (res) => {
-          let obj = {};
-          obj = {
-            ...res,
-            'symbol': value
-          }
-          this.stockService.searchStocks(value).subscribe((resp) => {
-            this.finalObj = {
-              ...obj,
-              'description': resp.result[0]?.description
-            }
-            this.data.push(this.finalObj);
+        (res: stockData) => {
+          this.stockService.searchStocks(value).subscribe((resp:searchStockData) => {            
+            this.data.push({
+              ...res,
+              stockName: resp.result[0]?.description,
+              stockCode: resp.result[0]?.symbol,
+            })
           });
         });
     }
@@ -87,16 +100,17 @@ export class DashoardComponent implements OnInit {
   removeItem(i, item) {
     this.data.splice(i, 1);
     this.stocksList.forEach((element, index) => {
-      if (element == item.symbol) {
-        this.stocksList.splice(index, 1);
+      if (index == i) {
+        this.stocksList.splice(i, 1);
       }
     });
     localStorage.setItem("stocks", JSON.stringify(this.stocksList));
   }
+  
 
   // Navigate to component
   redirectTo(item) {
-    this.stockService.setItem(item.description);
-    this.router.navigate(['sentiment' + `/${item.symbol}`]);
+    this.stockService.setItem(item.stockName);
+    this.router.navigate(['sentiment' + `/${item.stockCode}`]);
   }
 }
