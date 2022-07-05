@@ -100,8 +100,8 @@ export class DashoardComponent implements OnInit {
   removeItem(i, item) {
     this.data.splice(i, 1);
     this.stocksList.forEach((element, index) => {
-      if (index == i) {
-        this.stocksList.splice(i, 1);
+      if (element == item.stockCode) {
+        this.stocksList.splice(index, 1);
       }
     });
     localStorage.setItem("stocks", JSON.stringify(this.stocksList));
